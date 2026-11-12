@@ -168,7 +168,7 @@ public class FilterBar<C, E> extends JPanel implements DisplayableFilter<C, E>
 			if (entered)
 			{
 				b = UIManager.getColor("controlDkShadow");
-				f = Color.BLACK;
+				f = UIManager.getColor("Label.foreground"); //$NON-NLS-1$
 			}
 			else
 			{

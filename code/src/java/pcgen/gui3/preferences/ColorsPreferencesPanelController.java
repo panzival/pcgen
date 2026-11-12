@@ -53,15 +53,15 @@ public class ColorsPreferencesPanelController implements ResettableController
 	public void reset()
 	{
 		GuiAssertions.assertIsJavaFXThread();
-		prereqQualifyColor.setValue(UIPropertyContext.getQualifiedColor());
-		prereqFailColor.setValue(UIPropertyContext.getNotQualifiedColor());
-		featAutoColor.setValue(UIPropertyContext.getAutomaticColor());
-		featVirtualColor.setValue(UIPropertyContext.getVirtualColor());
+		prereqQualifyColor.setValue(UIPropertyContext.getStoredQualifiedColor());
+		prereqFailColor.setValue(UIPropertyContext.getStoredNotQualifiedColor());
+		featAutoColor.setValue(UIPropertyContext.getStoredAutomaticColor());
+		featVirtualColor.setValue(UIPropertyContext.getStoredVirtualColor());
 
-		sourceStatusRelease.setValue(UIPropertyContext.getSourceStatusReleaseColor());
-		sourceStatusAlpha.setValue(UIPropertyContext.getSourceStatusAlphaColor());
-		sourceStatusBeta.setValue(UIPropertyContext.getSourceStatusBetaColor());
-		sourceStatusTest.setValue(UIPropertyContext.getSourceStatusTestColor());
+		sourceStatusRelease.setValue(UIPropertyContext.getStoredSourceStatusReleaseColor());
+		sourceStatusAlpha.setValue(UIPropertyContext.getStoredSourceStatusAlphaColor());
+		sourceStatusBeta.setValue(UIPropertyContext.getStoredSourceStatusBetaColor());
+		sourceStatusTest.setValue(UIPropertyContext.getStoredSourceStatusTestColor());
 	}
 
 	@Override

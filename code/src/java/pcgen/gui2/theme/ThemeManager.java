@@ -16,6 +16,8 @@
 package pcgen.gui2.theme;
 
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Objects;
 
 import javax.swing.LookAndFeel;
@@ -31,7 +33,9 @@ import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.web.WebView;
 import javafx.stage.Window;
 
 /**
@@ -43,6 +47,18 @@ public final class ThemeManager
 	private static final String THEME_KEY = "uiTheme"; //$NON-NLS-1$
 	private static final String DARK_STYLESHEET = Objects.requireNonNull(
 		ThemeManager.class.getResource("pcgen-dark.css"), "pcgen-dark.css missing").toExternalForm();
+
+	/** Style class that stops a WebView's page from being recolored (for example print previews). */
+	public static final String KEEP_WEB_COLORS_STYLE_CLASS = "pcgen-keep-web-colors"; //$NON-NLS-1$
+
+	/** Applied to HTML shown in WebViews (tips, source info) while the dark theme is active. */
+	private static final String DARK_WEB_STYLESHEET = "data:text/css;charset=utf-8;base64," //$NON-NLS-1$
+		+ Base64.getEncoder().encodeToString((
+			"html, body { background-color: #2b2b2b !important; color: #dcdcdc !important; }\n"
+			+ "a, a:visited { color: #589df6 !important; }\n"
+			+ "table, td, th { border-color: #555555 !important; }\n").getBytes(StandardCharsets.UTF_8));
+	private static final Object WEB_STYLE_KEY = new Object();
+	private static final Object PULSE_LISTENER_KEY = new Object();
 
 	/** Theme currently applied. Written on either UI thread, read on both. */
 	private static volatile UITheme currentTheme = UITheme.DEFAULT;
@@ -168,8 +184,11 @@ public final class ThemeManager
 	private static void styleWindow(Window window)
 	{
 		styleScene(window.getScene());
-		// A window's scene can be set or replaced after it is shown.
-		window.sceneProperty().addListener((obs, oldScene, newScene) -> styleScene(newScene));
+		if (window.getProperties().putIfAbsent(PULSE_LISTENER_KEY, Boolean.TRUE) == null)
+		{
+			// A window's scene can be set or replaced after it is shown.
+			window.sceneProperty().addListener((obs, oldScene, newScene) -> styleScene(newScene));
+		}
 	}
 
 	private static void styleScene(Scene scene)
@@ -178,6 +197,7 @@ public final class ThemeManager
 		{
 			return;
 		}
+		watchWebViews(scene);
 		if (currentTheme == UITheme.DARK)
 		{
 			if (!scene.getStylesheets().contains(DARK_STYLESHEET))
@@ -191,4 +211,40 @@ public final class ThemeManager
 		}
 	}
 
+
+	/**
+	 * WebViews can be added to a scene at any time (FXML, dialogs built on demand), so each layout
+	 * pulse checks for ones whose page style does not yet match the theme.
+	 */
+	private static void watchWebViews(Scene scene)
+	{
+		if (scene.getProperties().containsKey(PULSE_LISTENER_KEY))
+		{
+			styleWebViews(scene);
+			return;
+		}
+		Runnable listener = () -> styleWebViews(scene);
+		scene.getProperties().put(PULSE_LISTENER_KEY, listener);
+		scene.addPostLayoutPulseListener(listener);
+		styleWebViews(scene);
+	}
+
+	private static void styleWebViews(Scene scene)
+	{
+		if (scene.getRoot() == null)
+		{
+			return;
+		}
+		String wanted = (currentTheme == UITheme.DARK) ? DARK_WEB_STYLESHEET : null;
+		for (Node node : scene.getRoot().lookupAll(".web-view"))
+		{
+			if (node instanceof WebView webView
+				&& !webView.getStyleClass().contains(KEEP_WEB_COLORS_STYLE_CLASS)
+				&& !Objects.equals(webView.getProperties().get(WEB_STYLE_KEY), String.valueOf(wanted)))
+			{
+				webView.getEngine().setUserStyleSheetLocation(wanted);
+				webView.getProperties().put(WEB_STYLE_KEY, String.valueOf(wanted));
+			}
+		}
+	}
 }

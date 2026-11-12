@@ -22,6 +22,7 @@ import java.io.File;
 
 import pcgen.cdom.base.Constants;
 import pcgen.facade.core.CharacterFacade;
+import pcgen.gui2.theme.ThemeColors;
 import pcgen.gui3.utilty.ColorUtilty;
 import pcgen.system.PropertyContext;
 import pcgen.util.Logging;
@@ -131,9 +132,20 @@ public final class UIPropertyContext extends PropertyContext
 		return Color.valueOf(prop);
 	}
 
-	public static Color getCustomItemColor()
+	/**
+	 * @return the stored color, unadjusted; use for editing preferences
+	 */
+	public static Color getStoredCustomItemColor()
 	{
 		return getInstance().getColor(CUSTOM_ITEM_COLOR);
+	}
+
+	/**
+	 * @return the color to draw with, adjusted to stay readable in the current theme
+	 */
+	public static Color getCustomItemColor()
+	{
+		return ThemeColors.forDisplay(getStoredCustomItemColor());
 	}
 
 	public static void setQualifiedColor(Color color)
@@ -141,9 +153,20 @@ public final class UIPropertyContext extends PropertyContext
 		getInstance().setColor(QUALIFIED_COLOR, color);
 	}
 
-	public static Color getQualifiedColor()
+	/**
+	 * @return the stored color, unadjusted; use for editing preferences
+	 */
+	public static Color getStoredQualifiedColor()
 	{
 		return getInstance().getColor(QUALIFIED_COLOR);
+	}
+
+	/**
+	 * @return the color to draw with, adjusted to stay readable in the current theme
+	 */
+	public static Color getQualifiedColor()
+	{
+		return ThemeColors.forDisplay(getStoredQualifiedColor());
 	}
 
 	public static void setNotQualifiedColor(Color  color)
@@ -151,9 +174,20 @@ public final class UIPropertyContext extends PropertyContext
 		getInstance().setColor(NOT_QUALIFIED_COLOR, color);
 	}
 
-	public static Color getNotQualifiedColor()
+	/**
+	 * @return the stored color, unadjusted; use for editing preferences
+	 */
+	public static Color getStoredNotQualifiedColor()
 	{
 		return getInstance().getColor(NOT_QUALIFIED_COLOR);
+	}
+
+	/**
+	 * @return the color to draw with, adjusted to stay readable in the current theme
+	 */
+	public static Color getNotQualifiedColor()
+	{
+		return ThemeColors.forDisplay(getStoredNotQualifiedColor());
 	}
 
 	public static void setAutomaticColor(Color  color)
@@ -161,9 +195,20 @@ public final class UIPropertyContext extends PropertyContext
 		getInstance().setColor(AUTOMATIC_COLOR, color);
 	}
 
-	public static Color getAutomaticColor()
+	/**
+	 * @return the stored color, unadjusted; use for editing preferences
+	 */
+	public static Color getStoredAutomaticColor()
 	{
 		return getInstance().getColor(AUTOMATIC_COLOR);
+	}
+
+	/**
+	 * @return the color to draw with, adjusted to stay readable in the current theme
+	 */
+	public static Color getAutomaticColor()
+	{
+		return ThemeColors.forDisplay(getStoredAutomaticColor());
 	}
 
 	public static void setVirtualColor(Color  color)
@@ -171,9 +216,20 @@ public final class UIPropertyContext extends PropertyContext
 		getInstance().setColor(VIRTUAL_COLOR, color);
 	}
 
-	public static Color getVirtualColor()
+	/**
+	 * @return the stored color, unadjusted; use for editing preferences
+	 */
+	public static Color getStoredVirtualColor()
 	{
 		return getInstance().getColor(VIRTUAL_COLOR);
+	}
+
+	/**
+	 * @return the color to draw with, adjusted to stay readable in the current theme
+	 */
+	public static Color getVirtualColor()
+	{
+		return ThemeColors.forDisplay(getStoredVirtualColor());
 	}
 
 	public static void setSourceStatusReleaseColor(Color  color)
@@ -181,9 +237,20 @@ public final class UIPropertyContext extends PropertyContext
 		getInstance().setColor(SOURCE_STATUS_RELEASE_COLOR, color);
 	}
 
-	public static Color getSourceStatusReleaseColor()
+	/**
+	 * @return the stored color, unadjusted; use for editing preferences
+	 */
+	public static Color getStoredSourceStatusReleaseColor()
 	{
 		return getInstance().initColor(SOURCE_STATUS_RELEASE_COLOR, Color.BLACK);
+	}
+
+	/**
+	 * @return the color to draw with, adjusted to stay readable in the current theme
+	 */
+	public static Color getSourceStatusReleaseColor()
+	{
+		return ThemeColors.forDisplay(getStoredSourceStatusReleaseColor());
 	}
 
 	public static void setSourceStatusAlphaColor(Color  color)
@@ -191,9 +258,20 @@ public final class UIPropertyContext extends PropertyContext
 		getInstance().setColor(SOURCE_STATUS_ALPHA_COLOR, color);
 	}
 
-	public static Color getSourceStatusAlphaColor()
+	/**
+	 * @return the stored color, unadjusted; use for editing preferences
+	 */
+	public static Color getStoredSourceStatusAlphaColor()
 	{
 		return getInstance().initColor(SOURCE_STATUS_ALPHA_COLOR, Color.RED);
+	}
+
+	/**
+	 * @return the color to draw with, adjusted to stay readable in the current theme
+	 */
+	public static Color getSourceStatusAlphaColor()
+	{
+		return ThemeColors.forDisplay(getStoredSourceStatusAlphaColor());
 	}
 
 	public static void setSourceStatusBetaColor(Color color)
@@ -201,9 +279,20 @@ public final class UIPropertyContext extends PropertyContext
 		getInstance().setColor(SOURCE_STATUS_BETA_COLOR, color);
 	}
 
-	public static Color getSourceStatusBetaColor()
+	/**
+	 * @return the stored color, unadjusted; use for editing preferences
+	 */
+	public static Color getStoredSourceStatusBetaColor()
 	{
 		return getInstance().initColor(SOURCE_STATUS_BETA_COLOR, new Color(128.0d / 255.0d, 0, 0, 1.0));
+	}
+
+	/**
+	 * @return the color to draw with, adjusted to stay readable in the current theme
+	 */
+	public static Color getSourceStatusBetaColor()
+	{
+		return ThemeColors.forDisplay(getStoredSourceStatusBetaColor());
 	}
 
 	public static void setSourceStatusTestColor(Color  color)
@@ -211,9 +300,20 @@ public final class UIPropertyContext extends PropertyContext
 		getInstance().setColor(SOURCE_STATUS_TEST_COLOR, color);
 	}
 
-	public static Color getSourceStatusTestColor()
+	/**
+	 * @return the stored color, unadjusted; use for editing preferences
+	 */
+	public static Color getStoredSourceStatusTestColor()
 	{
 		return getInstance().initColor(SOURCE_STATUS_TEST_COLOR, Color.MAGENTA);
+	}
+
+	/**
+	 * @return the color to draw with, adjusted to stay readable in the current theme
+	 */
+	public static Color getSourceStatusTestColor()
+	{
+		return ThemeColors.forDisplay(getStoredSourceStatusTestColor());
 	}
 
 	public static int getSingleChoiceAction()
