@@ -852,4 +852,18 @@ public interface CharacterFacade extends CompanionFacade
 	String getPreviewSheetVar(String key);
 
 	void addPreviewSheetVar(String key, String value);
+
+	/**
+	 * Evaluate a single output-sheet token (for example {@code AC.Total} or
+	 * {@code CHECK.0.TOTAL}) against this character.
+	 *
+	 * @param token The token, without the surrounding pipes.
+	 * @return The token's output, or an empty string if it cannot be evaluated.
+	 */
+	String evaluateToken(String token);
+
+	/**
+	 * @return A number that changes whenever the character is modified.
+	 */
+	int getChangeSerial();
 }
