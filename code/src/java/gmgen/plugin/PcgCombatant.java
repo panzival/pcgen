@@ -113,6 +113,7 @@ public class PcgCombatant extends Combatant
 				messageHandler.handleMessage(msg);
 				this.pc = msg.getPlayerCharacter();
 			}
+			boolean loadedFromFile = pc != null;
 			if (pc == null)
 			{
 				pc = new PlayerCharacter();
@@ -140,8 +141,21 @@ public class PcgCombatant extends Combatant
 				//Not necessarily set
 			}
 
-			hitPoints.setMax(combatant.getChild("HitPoints").getAttribute("max").getIntValue());
-			hitPoints.setCurrent(combatant.getChild("HitPoints").getAttribute("current").getIntValue());
+			int savedMax = combatant.getChild("HitPoints").getAttribute("max").getIntValue();
+			int savedCurrent = combatant.getChild("HitPoints").getAttribute("current").getIntValue();
+			if (loadedFromFile)
+			{
+				// The character file is the source of truth for max HP (it may have levelled up since
+				// the encounter was saved); keep the damage the save recorded.
+				int max = pc.hitPoints();
+				hitPoints.setMax(max);
+				hitPoints.setCurrent(Math.min(max, savedCurrent + (max - savedMax)));
+			}
+			else
+			{
+				hitPoints.setMax(savedMax);
+				hitPoints.setCurrent(savedCurrent);
+			}
 			hitPoints.setSubdual(combatant.getChild("HitPoints").getAttribute("subdual").getIntValue());
 			hitPoints.setState(State.getState(combatant.getChild("HitPoints").getAttribute("state").getValue()));
 		}
