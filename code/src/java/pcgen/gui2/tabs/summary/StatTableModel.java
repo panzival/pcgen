@@ -368,6 +368,7 @@ public class StatTableModel extends AbstractTableModel implements ReferenceListe
 		public SpinnerEditor()
 		{
 			this.spinner = new JSpinner(new SpinnerNumberModel(0, 0, null, 1));
+			TableCellUtilities.refreshOnLookAndFeelChange(spinner);
 		}
 
 		/**

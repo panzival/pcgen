@@ -18,15 +18,12 @@
 package pcgen.gui2;
 
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import pcgen.cdom.base.Constants;
 import pcgen.gui2.dialog.PreferencesDialog;
 import pcgen.gui3.GuiAssertions;
 import pcgen.gui3.application.DesktopHandler;
 import pcgen.gui3.preferences.PCGenPreferencesModel;
 import pcgen.system.Main;
-import pcgen.util.Logging;
 
 import javafx.application.Platform;
 
@@ -50,16 +47,8 @@ public final class PCGenUIManager
 	public static void initializeGUI()
 	{
 		DesktopHandler.initialize();
+		// The look and feel is installed by ThemeManager before this point.
 		pcgenFrame = new PCGenFrame(new UIContext());
-		String className = UIManager.getSystemLookAndFeelClassName();
-		try
-		{
-			UIManager.setLookAndFeel(className);
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e)
-		{
-			Logging.errorPrint("system look and feel not found", e);
-		}
-
 	}
 
 	public static void startGUI()

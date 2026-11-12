@@ -30,6 +30,7 @@ import pcgen.core.Globals;
 import pcgen.facade.core.CharacterFacade;
 import pcgen.gui2.PCGenFrame;
 import pcgen.gui2.PCGenStatusBar;
+import pcgen.gui2.theme.ThemeManager;
 import pcgen.gui2.tools.CharacterSelectionListener;
 import pcgen.gui3.GuiAssertions;
 import pcgen.io.ExportException;
@@ -63,6 +64,8 @@ public final class CharacterSheetPanel extends JFXPanel implements CharacterSele
         GuiAssertions.assertIsNotJavaFXThread();
         Platform.runLater(() -> {
             browser = new WebView();
+            // The sheet is a print preview, so it keeps its own paper colors in every theme.
+            browser.getStyleClass().add(ThemeManager.KEEP_WEB_COLORS_STYLE_CLASS);
             previewVariableHandler = new PreviewVariablesHandler();
             browser.setContextMenuEnabled(true);
             browser.getEngine().setJavaScriptEnabled(true);
