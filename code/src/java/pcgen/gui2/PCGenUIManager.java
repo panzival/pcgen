@@ -20,11 +20,14 @@ package pcgen.gui2;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import gmgen.GMGenSystem;
 import pcgen.cdom.base.Constants;
 import pcgen.gui2.dialog.PreferencesDialog;
+import pcgen.gui2.facade.GMGenMessageHandler;
 import pcgen.gui3.GuiAssertions;
 import pcgen.gui3.application.DesktopHandler;
 import pcgen.gui3.preferences.PCGenPreferencesModel;
+import pcgen.pluginmgr.PluginManager;
 import pcgen.system.Main;
 import pcgen.util.Logging;
 
@@ -51,6 +54,8 @@ public final class PCGenUIManager
 	{
 		DesktopHandler.initialize();
 		pcgenFrame = new PCGenFrame(new UIContext());
+		PluginManager pluginMgr = PluginManager.getInstance();
+		pluginMgr.addMember(new GMGenMessageHandler(pcgenFrame, pluginMgr.getPostbox()));
 		String className = UIManager.getSystemLookAndFeelClassName();
 		try
 		{
@@ -75,6 +80,23 @@ public final class PCGenUIManager
 		PreferencesDialog prefsDialog;
 		prefsDialog = new PreferencesDialog(pcgenFrame, PCGenPreferencesModel.buildRoot(), Constants.APPLICATION_NAME);
 		prefsDialog.setVisible(true);
+	}
+
+	/**
+	 * Shows the GMGen window (initiative tracker and other GM tools), creating it on first use.
+	 */
+	public static void displayGmGen()
+	{
+		GuiAssertions.assertIsSwingThread();
+		if (GMGenSystem.inst == null)
+		{
+			new GMGenSystem();
+		}
+		else
+		{
+			GMGenSystem.inst.setVisible(true);
+			GMGenSystem.inst.toFront();
+		}
 	}
 
 	public static void displayAboutDialog()

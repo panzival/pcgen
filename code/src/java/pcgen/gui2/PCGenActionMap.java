@@ -26,6 +26,7 @@ import java.util.Objects;
 import javax.swing.ActionMap;
 import javax.swing.JOptionPane;
 
+import pcgen.cdom.base.Constants;
 import pcgen.facade.core.CharacterFacade;
 import pcgen.facade.core.SourceSelectionFacade;
 import pcgen.facade.util.ReferenceFacade;
@@ -99,6 +100,7 @@ public final class PCGenActionMap extends ActionMap
 	public static final String LOG_COMMAND = TOOLS_COMMAND + ".log";
 	public static final String LOGGING_LEVEL_COMMAND = TOOLS_COMMAND + ".loggingLevel";
 	public static final String CALCULATOR_COMMAND = TOOLS_COMMAND + ".calculator";
+	public static final String GMGEN_COMMAND = TOOLS_COMMAND + ".gmgen";
 	public static final String COREVIEW_COMMAND = TOOLS_COMMAND + ".coreview";
 	public static final String SOLVERVIEW_COMMAND = TOOLS_COMMAND + ".solverview";
 	//the help menu commands
@@ -158,6 +160,7 @@ public final class PCGenActionMap extends ActionMap
 		put(LOG_COMMAND, new DebugAction());
 		put(LOGGING_LEVEL_COMMAND, new LoggingLevelAction());
 		put(CALCULATOR_COMMAND, new CalculatorAction());
+		put(GMGEN_COMMAND, new GMGenAction());
 		put(COREVIEW_COMMAND, new CoreViewAction());
 		put(SOLVERVIEW_COMMAND, new SolverViewAction());
 		put(INSTALL_DATA_COMMAND, new InstallDataAction());
@@ -267,6 +270,22 @@ public final class PCGenActionMap extends ActionMap
 		{
 			var dialog = new PanelFromResource<>(CalculatorDialogController.class, "CalculatorDialog.fxml");
 			dialog.showAsStage(LanguageBundle.getString("mnuToolsCalculator"));
+		}
+	}
+
+	private static final class GMGenAction extends PCGenAction
+	{
+
+		private GMGenAction()
+		{
+			super("mnuToolsGMGen", GMGEN_COMMAND, "control G", Icons.gmgen_icon,
+				Constants.SYSTEM_GMGEN);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			PCGenUIManager.displayGmGen();
 		}
 	}
 
