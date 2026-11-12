@@ -33,6 +33,8 @@ import javax.swing.JTable;
 import javax.swing.JToggleButton;
 import javax.swing.SpinnerModel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -201,6 +203,7 @@ public final class TableCellUtilities
 		public SpinnerRenderer(JSpinner spinner)
 		{
 			this.spinner = spinner;
+			refreshOnLookAndFeelChange(spinner);
 		}
 
 		@Override
@@ -216,6 +219,22 @@ public final class TableCellUtilities
 			return spinner;
 		}
 
+	}
+
+	/**
+	 * Renderer and editor components are not part of the window's component tree, so a theme
+	 * switch does not reach them. This keeps {@code component} styled with the current look and feel.
+	 *
+	 * @param component a component used only for rendering or editing cells
+	 */
+	public static void refreshOnLookAndFeelChange(JComponent component)
+	{
+		UIManager.addPropertyChangeListener(event -> {
+			if ("lookAndFeel".equals(event.getPropertyName())) //$NON-NLS-1$
+			{
+				SwingUtilities.updateComponentTreeUI(component);
+			}
+		});
 	}
 
 	/**
