@@ -21,6 +21,7 @@ import java.awt.Rectangle;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -2801,6 +2802,31 @@ public class CharacterFacadeImpl
 	public ListFacade<TodoFacade> getTodoList()
 	{
 		return todoManager.getTodoList();
+	}
+
+	@Override
+	public String evaluateToken(String token)
+	{
+		try
+		{
+			StringWriter out = new StringWriter();
+			try (BufferedWriter buf = new BufferedWriter(out))
+			{
+				ExportHandler.createExportHandler(new File("")).replaceTokenSkipMath(theCharacter, token, buf);
+			}
+			return out.toString().trim();
+		}
+		catch (Exception e)
+		{
+			Logging.debugPrint("Could not evaluate token " + token, e);
+			return "";
+		}
+	}
+
+	@Override
+	public int getChangeSerial()
+	{
+		return theCharacter.getSerial();
 	}
 
 	/**

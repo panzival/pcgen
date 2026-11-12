@@ -94,6 +94,7 @@ import pcgen.gui2.tabs.summary.ClassLevelTableModel;
 import pcgen.gui2.tabs.summary.InfoPaneHandler;
 import pcgen.gui2.tabs.summary.LanguageTableModel;
 import pcgen.gui2.tabs.summary.StatTableModel;
+import pcgen.gui2.tabs.summary.SummaryDashboard;
 import pcgen.gui2.tools.Icons;
 import pcgen.gui2.util.FacadeComboBoxModel;
 import pcgen.gui2.util.FontManipulation;
@@ -162,6 +163,7 @@ public class SummaryInfoTab extends JPanel implements CharacterInfoTab, TodoHand
 	private final JLabel modTotal;
 	private final JEditorPane todoPane;
 	private final JButton random;
+	private final SummaryDashboard dashboard = new SummaryDashboard();
 	private JScrollPane langScroll;
 
 	SummaryInfoTab()
@@ -226,7 +228,10 @@ public class SummaryInfoTab extends JPanel implements CharacterInfoTab, TodoHand
 
 		LanguageTableModel.initializeTable(languageTable);
 
-		setLayout(new GridBagLayout());
+		setLayout(new BorderLayout());
+		add(dashboard, BorderLayout.NORTH);
+		JPanel body = new JPanel(new GridBagLayout());
+		add(body, BorderLayout.CENTER);
 		GridBagConstraints gbc = new GridBagConstraints();
 
 		setPanelTitle(basicsPanel, LanguageBundle.getString("in_sumCharacterBasics")); //$NON-NLS-1$
@@ -237,18 +242,18 @@ public class SummaryInfoTab extends JPanel implements CharacterInfoTab, TodoHand
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 0.1;
 		gbc.weighty = 0.7;
-		add(basicsPanel, gbc);
+		body.add(basicsPanel, gbc);
 
 		setPanelTitle(todoPanel, LanguageBundle.getString("in_tipsString")); //$NON-NLS-1$
 		initTodoPanel(todoPanel);
 		gbc.gridy = 1;
 		gbc.gridheight = GridBagConstraints.REMAINDER;
-		add(todoPanel, gbc);
+		body.add(todoPanel, gbc);
 
 		initMiddlePanel(scoresPanel);
 		gbc.gridy = GridBagConstraints.RELATIVE;
 		gbc.weightx = 1;
-		add(scoresPanel, gbc);
+		body.add(scoresPanel, gbc);
 
 		JPanel rightPanel = new JPanel();
 		setPanelTitle(racePanel, LanguageBundle.getString("in_raceString")); //$NON-NLS-1$
@@ -256,7 +261,7 @@ public class SummaryInfoTab extends JPanel implements CharacterInfoTab, TodoHand
 		initRightPanel(rightPanel);
 		gbc.weightx = 0.1;
 		gbc.weighty = 1;
-		add(rightPanel, gbc);
+		body.add(rightPanel, gbc);
 	}
 
 	private static void setPanelTitle(JComponent panel, String title)
@@ -665,6 +670,7 @@ public class SummaryInfoTab extends JPanel implements CharacterInfoTab, TodoHand
 		models.put(ExpSubtractAction.class, new ExpSubtractAction(character));
 		models.put(TodoListHandler.class, new TodoListHandler(character));
 		models.put(HPHandler.class, new HPHandler(character));
+		models.put(SummaryDashboard.State.class, new SummaryDashboard.State(character));
 		return models;
 	}
 
@@ -687,6 +693,7 @@ public class SummaryInfoTab extends JPanel implements CharacterInfoTab, TodoHand
 		models.get(TodoListHandler.class).uninstall();
 		models.get(GenerateRollsAction.class).uninstall();
 		models.get(HPHandler.class).uninstall();
+		dashboard.uninstall();
 
 		models.get(ComboBoxRendererHandler.class).uninstall();
 	}
@@ -705,6 +712,7 @@ public class SummaryInfoTab extends JPanel implements CharacterInfoTab, TodoHand
 		models.get(TodoListHandler.class).install();
 		models.get(GenerateRollsAction.class).install();
 		models.get(HPHandler.class).install();
+		dashboard.install(models.get(SummaryDashboard.State.class));
 
 		random.setAction(models.get(RandomNameAction.class));
 		generateRollsButton.setAction(models.get(GenerateRollsAction.class));
