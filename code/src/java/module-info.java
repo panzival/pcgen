@@ -32,6 +32,7 @@ module pcgen {
     requires spring.core;
     requires net.sf.saxon;
     requires jep;
+    requires org.jdom2;
 
     requires static org.jetbrains.annotations;
     requires static com.github.spotbugs.annotations;

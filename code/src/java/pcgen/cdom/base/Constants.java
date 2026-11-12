@@ -462,4 +462,6 @@ public interface Constants
 
 	/** Type that signifies the modifier marks what the equipment item is made from. */
 	public static final String EQMOD_TYPE_BASEMATERIAL = "BaseMaterial";
+	/** GMGen. */
+	String SYSTEM_GMGEN = "GMGen"; //$NON-NLS-1$
 }
