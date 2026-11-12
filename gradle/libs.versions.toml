@@ -13,6 +13,7 @@ jep = "2.4.2"
 freemarker = "2.3.35"
 argparse4j = "0.9.0"
 flatlaf = "3.8"
+jdom2 = "2.0.6.1"
 jetbrains-annotations = "26.1.0"
 spotbugs-annotations = "4.10.5"
 hamcrest = "3.0"
@@ -53,6 +54,7 @@ jep = { module = "org.scijava:jep", version.ref = "jep" }
 freemarker = { module = "org.freemarker:freemarker", version.ref = "freemarker" }
 argparse4j = { module = "net.sourceforge.argparse4j:argparse4j", version.ref = "argparse4j" }
 flatlaf = { module = "com.formdev:flatlaf", version.ref = "flatlaf" }
+jdom2 = { module = "org.jdom:jdom2", version.ref = "jdom2" }
 jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains-annotations" }
 spotbugs-annotations = { module = "com.github.spotbugs:spotbugs-annotations", version.ref = "spotbugs-annotations" }
 hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }

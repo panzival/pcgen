@@ -241,6 +241,7 @@ dependencies {
     implementation libs.freemarker
     implementation libs.argparse4j
     implementation libs.flatlaf
+    implementation libs.jdom2
     implementation project(':base')
     implementation project(':formula')
 

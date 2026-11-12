@@ -45,11 +45,12 @@ createJarTask("jarPrimitivePlugins", "primitiveplugins.jar", "primitive", "Build
 createJarTask("jarQualifierPlugins", "qualifierplugins.jar", "qualifier", "Build (Link) Lst Compatibility Token plugin jar files", "plugin/qualifier/**/*.class")
 createJarTask("jarFunctionPlugins", "functionplugins.jar", "function", "Build (Link) Custom Function jar files", "plugin/function/**/*.class")
 createJarTask("jarGroupingPlugins", "groupingplugins.jar", "grouping", "Build (Link) Grouping plugin jar files", "plugin/grouping/**/*.class")
+createJarTask("jarGmgenPlugins", "gmgenplugins.jar", "GMGen", "Build (Link) GMGen plugin jar files (Initiative tracker)", "plugin/initiative/**/*.class")
 createJarTask("jarJepCommandsPlugins", "jepcommandsplugins.jar", "JEP command", "Build (Link) Jep Command plugin jar files", "plugin/jepcommands/**/*.class")
 
 tasks.register("jarAllPlugins") {
     description = "Create the plugin jars"
     group =  BasePlugin.BUILD_GROUP
     dependsOn jarExportPlugins, jarBonusPlugins, jarLstPlugins, jarPrePlugins, jarConverterPlugins, jarModifierPlugins,
-              jarPrimitivePlugins, jarQualifierPlugins, jarFunctionPlugins, jarGroupingPlugins, jarJepCommandsPlugins
+              jarPrimitivePlugins, jarQualifierPlugins, jarFunctionPlugins, jarGroupingPlugins, jarJepCommandsPlugins, jarGmgenPlugins
 }
