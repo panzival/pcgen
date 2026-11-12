@@ -24,6 +24,8 @@
        xmlns:fx="http://javafx.com/fxml"
        fx:controller="pcgen.gui3.preferences.DisplayOptionsPreferencesPanelController">
     <VBox>
+        <Label labelFor="$cmbTheme" text="%in_Prefs_theme"/>
+        <ComboBox fx:id="cmbTheme"/>
         <CheckBox fx:id="showSkillModifier" text="%in_Prefs_showSkillModifierBreakdown"/>
         <CheckBox fx:id="showSkillRanks" text="%in_Prefs_showSkillRanksBreakdown"/>
         <CheckBox fx:id="useOutputNamesEquipment" text="%in_Prefs_useOutputNamesEquipment"/>

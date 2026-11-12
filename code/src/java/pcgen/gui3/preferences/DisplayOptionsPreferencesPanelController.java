@@ -20,6 +20,8 @@ package pcgen.gui3.preferences;
 
 import pcgen.core.SettingsHandler;
 import pcgen.gui2.UIPropertyContext;
+import pcgen.gui2.theme.ThemeManager;
+import pcgen.gui2.theme.UITheme;
 import pcgen.gui3.GuiAssertions;
 import pcgen.gui3.ResettableController;
 import pcgen.system.PCGenSettings;
@@ -27,6 +29,7 @@ import pcgen.system.PCGenSettings;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.util.StringConverter;
 
 /**
  * Preferences panel that controls how the GUI presents information.
@@ -47,11 +50,28 @@ public class DisplayOptionsPreferencesPanelController implements ResettableContr
 	private CheckBox useOutputNamesOther;
 	@FXML
 	private ComboBox<String> cmbChoiceMethods;
+	@FXML
+	private ComboBox<UITheme> cmbTheme;
 
 	@FXML
 	void initialize()
 	{
 		cmbChoiceMethods.setItems(model.choiceOptionsAsObservableList());
+		cmbTheme.getItems().setAll(UITheme.values());
+		cmbTheme.setConverter(new StringConverter<>()
+		{
+			@Override
+			public String toString(UITheme theme)
+			{
+				return (theme == null) ? "" : theme.getDisplayName();
+			}
+
+			@Override
+			public UITheme fromString(String string)
+			{
+				throw new UnsupportedOperationException("theme combo box is not editable");
+			}
+		});
 	}
 
 
@@ -60,6 +80,7 @@ public class DisplayOptionsPreferencesPanelController implements ResettableContr
 	{
 		GuiAssertions.assertIsJavaFXThread();
 		cmbChoiceMethods.getSelectionModel().select(UIPropertyContext.getSingleChoiceAction());
+		cmbTheme.getSelectionModel().select(ThemeManager.getConfiguredTheme());
 		showSkillModifier.setSelected(
 				PCGenSettings.OPTIONS_CONTEXT.getBoolean(PCGenSettings.OPTION_SHOW_SKILL_MOD_BREAKDOWN, false));
 		showSkillRanks.setSelected(
@@ -82,6 +103,10 @@ public class DisplayOptionsPreferencesPanelController implements ResettableContr
 				showSkillModifier.isSelected());
 		PCGenSettings.OPTIONS_CONTEXT.setBoolean(PCGenSettings.OPTION_SHOW_SKILL_RANK_BREAKDOWN,
 				showSkillRanks.isSelected());
-
+		UITheme theme = cmbTheme.getSelectionModel().getSelectedItem();
+		if (theme != null)
+		{
+			ThemeManager.changeTheme(theme);
+		}
 	}
 }

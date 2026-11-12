@@ -42,6 +42,7 @@ import pcgen.facade.core.UIDelegate;
 import pcgen.gui2.PCGenUIManager;
 import pcgen.gui2.UIPropertyContext;
 import pcgen.gui2.converter.TokenConverter;
+import pcgen.gui2.theme.ThemeManager;
 import pcgen.gui3.GraphicsStartupError;
 import pcgen.gui3.PanelFromResource;
 import pcgen.gui3.namegen.RandomNameDialog;
@@ -196,6 +197,7 @@ public final class Main
 		{
 			GraphicsStartupError.reportAndExit(toolkitFailure);
 		}
+		ThemeManager.installAtStartup();
 
 		PCGenPreloader splash = new PCGenPreloader();
 		runBootstrapTasks(splash);
